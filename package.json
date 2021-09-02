@@ -7,7 +7,12 @@
     "test": "jest --passWithNoTests --watch",
     "test:staged": "jest --passWithNoTests --watch",
     "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix"
+    "lint-fix": "eslint . --ext .ts --fix"    
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "keywords": [],
   "author": "",
