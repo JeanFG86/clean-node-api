@@ -135,5 +135,3 @@ describe('SignUp Controller ', () => {
         expect(httpResponse.body).toEqual(new ServerError());
     });
 });
-
-//CONTINUA EM 11:30
