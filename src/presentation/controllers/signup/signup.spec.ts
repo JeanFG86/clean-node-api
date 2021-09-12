@@ -10,7 +10,6 @@ import {
     InvalidParamError,
     ServerError,
 } from '../../errors';
-import { resolve } from 'path/posix';
 
 const makeEmailValidator = (): EmailValidator => {
     class EmailValidatorStub implements EmailValidator {
