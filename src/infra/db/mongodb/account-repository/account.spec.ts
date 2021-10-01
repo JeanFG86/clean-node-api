@@ -8,6 +8,10 @@ describe('Account Mongo Repository', () => {
     afterAll(async () => {
         MongoHelper.disconnect();
     });
+    beforeEach(async () => {
+        const accountCollection = MongoHelper.getCollection('accounts');
+        accountCollection.deleteMany({});
+    });
 
     const makeSut = (): AccountMongoRepository => {
         return new AccountMongoRepository();
@@ -21,7 +25,7 @@ describe('Account Mongo Repository', () => {
             password: 'any_password',
         });
         expect(account).toBeTruthy();
-        //expect(account.id).toBeTruthy();
+        expect(account.id).toBeTruthy();
         expect(account.name).toBe('any_name');
         expect(account.email).toBe('any_email@mail.com');
         expect(account.password).toBe('any_password');
