@@ -10,7 +10,7 @@ describe('SignUp Routes', () => {
         MongoHelper.disconnect();
     });
     beforeEach(async () => {
-        const accountCollection = MongoHelper.getCollection('accounts');
+        const accountCollection = await MongoHelper.getCollection('accounts');
         accountCollection.deleteMany({});
     });
     test('Should return an account on success', async () => {
