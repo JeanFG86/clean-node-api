@@ -5,6 +5,7 @@ import {
     AddAccount,
     AddAccountModel,
     HttpRequest,
+    Validation,
 } from './signup-protocols';
 import {
     MissingParamError,
@@ -31,6 +32,15 @@ const makeEmailValidator = (): EmailValidator => {
     return new EmailValidatorStub();
 };
 
+const makeValidation = (): Validation => {
+    class ValidationStub implements Validation {
+        validate(input: any): Error {
+            return null;
+        }
+    }
+    return new ValidationStub();
+};
+
 const makeAddAccount = (): AddAccount => {
     class AddAccountStub implements AddAccount {
         async add(account: AddAccountModel): Promise<AccountModel> {
@@ -51,17 +61,24 @@ interface SutTypes {
     sut: SignUpController;
     emailValidatorStub: EmailValidator;
     addAccountStub: AddAccount;
+    validationStub: Validation;
 }
 
 const makeSut = (): SutTypes => {
     const emailValidatorStub = makeEmailValidator();
     const addAccountStub = makeAddAccount();
-    const sut = new SignUpController(emailValidatorStub, addAccountStub);
+    const validationStub = makeValidation();
+    const sut = new SignUpController(
+        emailValidatorStub,
+        addAccountStub,
+        validationStub,
+    );
 
     return {
         sut,
         emailValidatorStub,
         addAccountStub,
+        validationStub,
     };
 };
 
@@ -190,6 +207,12 @@ describe('SignUp Controller ', () => {
         const httpResponse = await sut.handle(makeFakeRequest());
         expect(httpResponse).toEqual(ok(makeFakeAccount()));
     });
-});
 
-//10:30
+    test('Should call Validation with correct values', () => {
+        const { sut, validationStub } = makeSut();
+        const addSpy = jest.spyOn(validationStub, 'validate');
+        const httpRequest = makeFakeRequest();
+        sut.handle(httpRequest);
+        expect(addSpy).toHaveBeenCalledWith(httpRequest.body);
+    });
+});
