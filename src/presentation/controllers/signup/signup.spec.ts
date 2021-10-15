@@ -57,7 +57,6 @@ const makeSut = (): SutTypes => {
 
     return {
         sut,
-
         addAccountStub,
         validationStub,
     };
