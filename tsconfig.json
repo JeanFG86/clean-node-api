@@ -3,7 +3,8 @@
         "outDir": "dist",
         "module": "commonjs",
         "target": "ES3",
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "sourceMap": true
     }, 
     "include": [
         "src"
