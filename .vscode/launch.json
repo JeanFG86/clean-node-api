@@ -6,7 +6,7 @@
             "request": "attach",
             "name": "Docker: Attach to Node",
             "remoteRoot": "/usr/src/clean-node-api",
-            "port":9222,
+            "port":8222,
             "restart": true
         }
 

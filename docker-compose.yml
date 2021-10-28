@@ -15,10 +15,10 @@ services:
         working_dir: /usr/src/clean-node-api
         command: bash -c "npm install --only=prod && npm run debug"
         volumes:
-            - ./dist:/usr/src/clean-node-api/dist
+            - ./dist/:/usr/src/clean-node-api/dist
             - ./package.json:/usr/src/clean-node-api/package.json
         ports:
             - '3333:3333'
-            - '9222:9222'
+            - '8222:8222'
         links:
             - mongo
