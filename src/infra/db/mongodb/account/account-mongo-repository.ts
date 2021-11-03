@@ -35,12 +35,17 @@ export class AccountMongoRepository
     async loadByEmail(email: string): Promise<AccountModel> {
         const accountCollection = await MongoHelper.getCollection('accounts');
         const account = await accountCollection.findOne({ email });
-        const accountReturn = {
-            id: account._id,
-            name: account.name,
-            email: account.email,
-            password: account.password,
-        };
-        return accountReturn;
+        console.log(email);
+        console.log(account);
+        if (account) {
+            const accountReturn = {
+                id: account._id,
+                name: account.name,
+                email: account.email,
+                password: account.password,
+            };
+            return accountReturn;
+        }
+        return null;
     }
 }

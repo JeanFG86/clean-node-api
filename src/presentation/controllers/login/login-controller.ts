@@ -29,6 +29,7 @@ export class LoginController implements Controller {
                 email,
                 password,
             });
+            console.log(accessToken);
             if (!accessToken) {
                 return unauthorized();
             }
