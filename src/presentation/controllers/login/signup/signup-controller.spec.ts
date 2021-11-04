@@ -8,13 +8,17 @@ import {
     HttpRequest,
     Validation,
 } from './signup-controller-protocols';
-import { MissingParamError, ServerError, EmailInUseError } from '../../errors';
+import {
+    MissingParamError,
+    ServerError,
+    EmailInUseError,
+} from '../../../errors';
 import {
     ok,
     serverError,
     badRequest,
     forbidden,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
 const makeFakeRequest = (): HttpRequest => ({
     body: {
