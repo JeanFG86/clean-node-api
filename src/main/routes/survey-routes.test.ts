@@ -56,6 +56,7 @@ describe('Survey Routes', () => {
                 { $set: { accessToken: _token } },
             );
 
+            console.log();
             await request(app)
                 .post('/api/surveys')
                 .set('x-access-token', _token)
