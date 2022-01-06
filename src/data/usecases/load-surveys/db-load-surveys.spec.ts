@@ -29,19 +29,35 @@ const makeFakeSurveys = (): SurveyModel[] => {
     ];
 };
 
+interface SutTypes {
+    sut: DbLoadSurveys;
+    loadSurveysRepositoryStub: LoadSurveysRepository;
+}
+
+const makeLoadSurveysRepository = (): LoadSurveysRepository => {
+    class LoadSurveysRepositoryStub implements LoadSurveysRepository {
+        loadAll(): Promise<SurveyModel[]> {
+            return new Promise(resolve => resolve(makeFakeSurveys()));
+        }
+    }
+
+    return new LoadSurveysRepositoryStub();
+};
+
+const makeSut = (): SutTypes => {
+    const loadSurveysRepositoryStub = makeLoadSurveysRepository();
+    const sut = new DbLoadSurveys(loadSurveysRepositoryStub);
+    return {
+        sut,
+        loadSurveysRepositoryStub,
+    };
+};
+
 describe('DbLoadSurvey', () => {
     test('should call LoadSurveysRepository', async () => {
-        class LoadSurveysRepositoryStub implements LoadSurveysRepository {
-            loadAll(): Promise<SurveyModel[]> {
-                return new Promise(resolve => resolve(makeFakeSurveys()));
-            }
-        }
-        const loadSurveysRepositoryStub = new LoadSurveysRepositoryStub();
+        const { sut, loadSurveysRepositoryStub } = makeSut();
         const loadAllSpy = jest.spyOn(loadSurveysRepositoryStub, 'loadAll');
-        const sut = new DbLoadSurveys(loadSurveysRepositoryStub);
         await sut.load();
         expect(loadAllSpy).toHaveBeenCalled();
     });
 });
-
-//CONTINUA EM 08MIN DA AULA CRIANDO O DBLOADSURVEYS
