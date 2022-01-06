@@ -60,4 +60,10 @@ describe('DbLoadSurvey', () => {
         await sut.load();
         expect(loadAllSpy).toHaveBeenCalled();
     });
+
+    test('should call LoadSurveysRepository', async () => {
+        const { sut } = makeSut();
+        const surveys = await sut.load();
+        expect(surveys).toEqual(makeFakeSurveys());
+    });
 });
