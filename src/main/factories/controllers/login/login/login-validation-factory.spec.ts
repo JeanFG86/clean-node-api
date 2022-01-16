@@ -1,10 +1,10 @@
-import { Validation } from '../../../../../presentation/protocols/validations';
-import { EmailValidator } from '../../../../../validation/protocols/email-validator';
+import { Validation } from '@/presentation/protocols/validations';
+import { EmailValidator } from '@/validation/protocols/email-validator';
 import {
     EmailValidation,
     RequiredFieldValidation,
     ValidationComposite,
-} from '../../../../../validation/validators';
+} from '@/validation/validators';
 
 import { makeLoginValidation } from './login-validation-factory';
 
