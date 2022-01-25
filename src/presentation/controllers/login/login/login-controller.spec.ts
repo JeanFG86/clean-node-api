@@ -31,11 +31,11 @@ const makeAthentication = (): Authentication => {
     return new AuthenticationStub();
 };
 
-interface SutType {
+type SutType = {
     sut: LoginController;
     authenticationStub: Authentication;
     validationStub: Validation;
-}
+};
 
 const makeFakeRequest = (): HttpRequest => ({
     body: {
