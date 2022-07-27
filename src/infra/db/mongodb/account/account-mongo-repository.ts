@@ -1,5 +1,6 @@
 import { AddAccountRepository } from '../../../../data/protocols/db/account/add-account-repository';
 import { LoadAccountByEmailRepository } from '../../../../data/protocols/db/account/load-account-by-email-repository';
+import { LoadAccountByTokenRepository } from '../../../../data/protocols/db/account/load-account-by-token-repository';
 import { UpdateAccessTokenRepository } from '../../../../data/protocols/db/account/update-access-token-repository';
 import { AccountModel } from '../../../../domain/models/account';
 import { AddAccountModel } from '../../../../domain/usecases/add-account';
@@ -9,8 +10,27 @@ export class AccountMongoRepository
     implements
         AddAccountRepository,
         LoadAccountByEmailRepository,
-        UpdateAccessTokenRepository
+        UpdateAccessTokenRepository,
+        LoadAccountByTokenRepository
 {
+    async loadByToken(token: string, role?: string): Promise<AccountModel> {
+        const accountCollection = await MongoHelper.getCollection('accounts');
+        const account = await accountCollection.findOne({
+            accessToken: token,
+            $or: [{ role }, { role: 'admin' }],
+        });
+
+        if (account) {
+            const accountReturn = {
+                id: account._id,
+                name: account.name,
+                email: account.email,
+                password: account.password,
+            };
+            return accountReturn;
+        }
+        return null;
+    }
     async updateAccessToken(id: string, token: string): Promise<void> {
         const accountCollection = await MongoHelper.getCollection('accounts');
         await accountCollection.updateOne(
@@ -35,12 +55,17 @@ export class AccountMongoRepository
     async loadByEmail(email: string): Promise<AccountModel> {
         const accountCollection = await MongoHelper.getCollection('accounts');
         const account = await accountCollection.findOne({ email });
-        const accountReturn = {
-            id: account._id,
-            name: account.name,
-            email: account.email,
-            password: account.password,
-        };
-        return accountReturn;
+        console.log(email);
+        console.log(account);
+        if (account) {
+            const accountReturn = {
+                id: account._id,
+                name: account.name,
+                email: account.email,
+                password: account.password,
+            };
+            return accountReturn;
+        }
+        return null;
     }
 }

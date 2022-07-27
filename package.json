@@ -1,12 +1,18 @@
 {
   "name": "clean-node-api",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:8222 --nolazy ./dist/main/server.js",
+    "build": "rimraf dist && tsc",
+    "dev": "sucrase-node src/main/server.ts",
+    "up": "npm run build && docker-compose up -d",
+    "down": "docker-compose down",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
+    "test:uverbose": "jest --passWithNoTests --runInBand --watch",
     "test:unit": "npm test -- --watch",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:staged": "npm test -- --findRelatedTests",
@@ -34,7 +40,9 @@
     "husky": "^7.0.2",
     "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
+    "mockdate": "^3.0.5",
     "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
     "sucrase": "^3.20.1",
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.5",
@@ -47,6 +55,10 @@
     "fast-glob": "^3.2.7",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.1.2",
+    "nodemon": "^2.0.14",
     "validator": "^13.6.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
